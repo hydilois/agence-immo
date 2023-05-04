@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PropertyFormRequest;
+use App\Models\Option;
 use App\Models\Property;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PropertyController extends Controller
 {
@@ -24,42 +28,68 @@ class PropertyController extends Controller
      */
     public function create()
     {
+        $property = new Property();
+        $property->fill([
+            'surface' => 40,
+            'rooms' => 3,
+            'bedrooms' => 1,
+            'floor' => 0,
+            'city' => 'Yaoundé',
+            'postal_code' => 34000,
+            'sold' => false
+        ]);
         return view('admin.properties.form', [
-            'property' => new Property()
+            'property' => $property,
+            'options' => Option::pluck('name', 'id')
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      * @param PropertyFormRequest $request
+     * @return RedirectResponse
      */
     public function store(PropertyFormRequest $request)
     {
-        //
+        $property = Property::create($request->validated());
+        $property->options()->sync($request->validated('options'));
+        return to_route('admin.property.index')->with('success', 'Le bien a bien été crée');
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param string $id
+     * @param Property $property
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
-    public function edit(string $id)
+    public function edit(Property $property)
     {
-        //
+        return view('admin.properties.form', [
+            'property' => $property,
+            'options' => Option::pluck('name', 'id')
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
+     * @param PropertyFormRequest $request
+     * @param Property $property
+     * @return RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(PropertyFormRequest $request, Property $property)
     {
-        //
+        $property->update($request->validated());
+        $property->options()->sync($request->validated('options'));
+        return to_route('admin.property.index')->with('success', 'Le bien a bien été modifié');
     }
 
     /**
      * Remove the specified resource from storage.
+     * @param Property $property
+     * @return RedirectResponse
      */
-    public function destroy(string $id)
+    public function destroy(Property $property)
     {
-        //
+        $property->delete();
+        return to_route('admin.property.index')->with('success', 'Le bien a bien été supprimé');
     }
 }

@@ -23,7 +23,7 @@
         <div class="row">
             @include('shared.input', ['class' => 'col', 'label' => 'Pièces', 'name' => 'rooms', 'value' => $property->rooms])
             @include('shared.input', ['class' => 'col', 'label' => 'Chambres', 'name' => 'bedrooms', 'value' => $property->bedrooms])
-            @include('shared.input', ['class' => 'col', 'label' => 'Etage', 'name' => 'floor', 'value' => $property->floor])
+            @include('shared.input', ['class' => 'col', 'label' => 'Étage', 'name' => 'floor', 'value' => $property->floor])
         </div>
 
         <div class="row">

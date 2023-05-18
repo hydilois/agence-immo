@@ -1,6 +1,6 @@
 <div class="card">
     @if($property->getPicture())
-        <img src="{{ $property->getPicture()->getImageUrl() }}" alt="" class="w-100">
+        <img src="{{ $property->getPicture()->getImageUrl(612, 471) }}" alt="" class="w-100">
     @else
         <img src="/empty.jpg" alt="" class="w-100">
     @endif

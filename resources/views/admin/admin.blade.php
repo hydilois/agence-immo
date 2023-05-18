@@ -15,6 +15,15 @@
                 all: unset;
             }
         }
+        .htmx-indicator {
+            display: none;
+        }
+        .htmx-request .htmx-indicator {
+            display: inline-block;
+        }
+        .htmx-request.htmx-indicator {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -66,5 +75,6 @@
 <script>
     new TomSelect('select[multiple]', {plugins: {remove_button: {title: 'Supprimer'}}})
 </script>
+<script src="https://unpkg.com/htmx.org@1.9.2"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PropertyFormRequest;
 use App\Models\Option;
+use App\Models\Picture;
 use App\Models\Property;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -53,6 +54,7 @@ class PropertyController extends Controller
     {
         $property = Property::create($request->validated());
         $property->options()->sync($request->validated('options'));
+        $property->attachedFiles($request->validated(['pictures']));
         return to_route('admin.property.index')->with('success', 'Le bien a bien été crée');
     }
 
@@ -79,6 +81,7 @@ class PropertyController extends Controller
     {
         $property->update($request->validated());
         $property->options()->sync($request->validated('options'));
+        $property->attachedFiles($request->validated(['pictures']));
         return to_route('admin.property.index')->with('success', 'Le bien a bien été modifié');
     }
 
@@ -89,6 +92,7 @@ class PropertyController extends Controller
      */
     public function destroy(Property $property)
     {
+        Picture::destroy($property->pictures()->pluck('id'));
         $property->delete();
         return to_route('admin.property.index')->with('success', 'Le bien a bien été supprimé');
     }

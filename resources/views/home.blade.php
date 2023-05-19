@@ -13,7 +13,7 @@
 
     <div class="container">
         <h2>Mes derniers biens</h2>
-        <div class="row">
+        <div class="row mt-5">
             @foreach($properties as $property)
                 <div class="col">
                     @include('property.card')

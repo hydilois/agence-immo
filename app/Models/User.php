@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /*protected function password(): Attribute
+    {
+        return Attribute::make(
+             fn (?string $value) => '',
+             fn (string $value) => Hash::make($value)
+        );
+    }*/
 }
